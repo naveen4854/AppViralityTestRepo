@@ -34,6 +34,8 @@ namespace AppViralityTest.BLL
 
         public void AddProduct(ProductDTO obj)
         {
+            obj.AddedDateTime = DateTime.Now;
+            obj.UpdatedDateTime = DateTime.Now;
             using (var unityofwork = new UnitOfWork())
             {
                 var product = Mapper.Map<Product>(obj);
@@ -62,6 +64,7 @@ namespace AppViralityTest.BLL
 
         public void UpdateProduct(ProductDTO obj)
         {
+            obj.UpdatedDateTime = DateTime.Now;
             using (var unityofwork = new UnitOfWork())
             {
                 var product = unityofwork.Products.Get(obj.Id);

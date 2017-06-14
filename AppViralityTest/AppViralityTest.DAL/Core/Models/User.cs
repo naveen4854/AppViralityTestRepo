@@ -12,16 +12,11 @@ namespace AppViralityTest.DAL.Core.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Product
+    public partial class User
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int FK_CategoryId { get; set; }
-        public string Description { get; set; }
-        public double Price { get; set; }
-        public System.DateTime AddedDateTime { get; set; }
-        public System.DateTime UpdatedDateTime { get; set; }
-    
-        public virtual Category Category { get; set; }
+        public string Password { get; set; }
+        public bool isActive { get; set; }
     }
 }

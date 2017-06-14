@@ -14,10 +14,13 @@ namespace AppViralityTest.BLL.Configurations
     {
         public static void RegisterMappings()
         {
-            Mapper.Initialize(cfg => {
+            Mapper.Initialize(cfg =>
+            {
                 cfg.CreateMap<Product, ProductViewModel>();
                 cfg.CreateMap<Category, CategoryViewModel>();
                 cfg.CreateMap<ProductDTO, Product>();
+                cfg.CreateMap<UserDTO, User>().ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.UserName)); ;
+                cfg.CreateMap<User, UserDTO>().ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Name)); ;
             });
         }
     }

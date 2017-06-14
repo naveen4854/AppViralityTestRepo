@@ -1,6 +1,8 @@
-﻿using AppViralityTest.BLL.Configurations;
+﻿using AppViralityTest.BLL;
+using AppViralityTest.BLL.Configurations;
 using AppViralityTest.DataModels;
 using System;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -29,16 +31,21 @@ namespace AppViralityTest.Web
                     try
                     {
                         //let us take out the username now                
-                        string username = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
+                        var userid = Convert.ToInt32(FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name);
                         string roles = string.Empty;
 
-                        
-                        User user = new User { UserName = "aa", Password = "aa", Roles = "Admin" };
-                        roles = user.Roles;
-                       
-                        //Let us set the Pricipal with our user specific details
-                        e.User = new System.Security.Principal.GenericPrincipal(
-                          new System.Security.Principal.GenericIdentity(username, "Forms"), roles.Split(';'));
+                        var userMan = new UserManager();
+                        if (userMan.IsUserValid(new UserDTO { Id = userid }))
+                        {
+                            var user = userMan.GetUserDetails(userid);
+                            user.Roles = "Admin";
+
+                            //Let us set the Pricipal with our user specific details
+                            e.User = new System.Security.Principal.GenericPrincipal(
+                              new System.Security.Principal.GenericIdentity(userid.ToString(), "Forms"), user.Roles.Split(';'));
+                        }
+                        else { throw new HttpException(401, "Unauthorized access"); }
+
                     }
                     catch (Exception)
                     {

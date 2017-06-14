@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace AppViralityTest.DataModels
 {
-    public class User
+    public class UserDTO
     {
+        public int Id { get; set; }
         [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }

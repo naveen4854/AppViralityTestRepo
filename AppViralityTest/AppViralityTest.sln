@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppViralityTest.DAL", "AppV
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppViralityTest.DataModels", "AppViralityTest.DataModels\AppViralityTest.DataModels.csproj", "{AF63ACEE-784B-4202-91AB-72AB3FAAD4BA}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "AppViralityTest.Database", "AppViralityTest.Database\AppViralityTest.Database.sqlproj", "{12A1B30A-24E6-4F8E-9EB3-8CF4EEF7E985}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,12 @@ Global
 		{AF63ACEE-784B-4202-91AB-72AB3FAAD4BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF63ACEE-784B-4202-91AB-72AB3FAAD4BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF63ACEE-784B-4202-91AB-72AB3FAAD4BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12A1B30A-24E6-4F8E-9EB3-8CF4EEF7E985}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12A1B30A-24E6-4F8E-9EB3-8CF4EEF7E985}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12A1B30A-24E6-4F8E-9EB3-8CF4EEF7E985}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{12A1B30A-24E6-4F8E-9EB3-8CF4EEF7E985}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12A1B30A-24E6-4F8E-9EB3-8CF4EEF7E985}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12A1B30A-24E6-4F8E-9EB3-8CF4EEF7E985}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

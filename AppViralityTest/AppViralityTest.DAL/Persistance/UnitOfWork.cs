@@ -14,10 +14,12 @@ namespace AppViralityTest.DAL.Persistance
             _context = new AppViralityTestDBEntities1();
             Categories = new CategoryRepository(_context);
             Products = new ProductRepository(_context);
+            Users = new UserRepository(_context);
         }
 
         public ICategoryRepository Categories { get; private set; }
         public IProductRepository Products { get; private set; }
+        public IUserRepository Users { get; private set; }
 
         public int Complete()
         {

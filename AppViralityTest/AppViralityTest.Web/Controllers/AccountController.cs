@@ -1,4 +1,5 @@
-﻿using AppViralityTest.DataModels;
+﻿using AppViralityTest.BLL;
+using AppViralityTest.DataModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,12 @@ namespace AppViralityTest.Web.Controllers
 {
     public class AccountController : Controller
     {
+        public readonly UserManager _userManager;
+        public AccountController()
+        {
+            _userManager = new UserManager();
+        }
+
         // GET: /Account/LogOn
         public ActionResult Login()
         {
@@ -17,7 +24,7 @@ namespace AppViralityTest.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(User model, string returnUrl)
+        public ActionResult Login(UserDTO model, string returnUrl)
         {
             // Lets first check if the Model is valid or not
             if (ModelState.IsValid)
@@ -30,14 +37,12 @@ namespace AppViralityTest.Web.Controllers
                 // Now if our password was enctypted or hashed we would have done the
                 // same operation on the user entered password here, But for now
                 // since the password is in plain text lets just authenticate directly
-
-                bool userValid = true;
-
+                var user = _userManager.GetUserDetails(model);
                 // User found in the database
-                if (userValid)
+                if (user != null)
                 {
 
-                    FormsAuthentication.SetAuthCookie(username, false);
+                    FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                     {
