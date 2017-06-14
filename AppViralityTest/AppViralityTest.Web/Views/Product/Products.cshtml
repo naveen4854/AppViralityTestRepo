@@ -1,0 +1,101 @@
+﻿@model IEnumerable<AppViralityTest.DataModels.ProductViewModel>
+<p style="float:right;padding:5px">
+    <button onclick="loadAddNew()" class="btn btn-default">Add Product</button>
+</p>
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr onclick="EditProduct(@item.Id)" title="Click to Edit the product" style="cursor:pointer">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                
+            </tr>
+        }
+
+    </table>
+    <div class="pagination-container">
+
+        <ul class="pagination">
+            @for (var i = 1; i <= ViewBag.totalPages; i++)
+            {
+                <li class="@if(ViewBag.currentPage == i){ <text>active</text>}">
+                    <a onclick="LoadResults(@i)">@i</a>
+                </li>
+            }
+        </ul>
+    </div>
+}
+else
+{ <p>No Products added</p>}
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+<script>
+
+    function loadAddNew() {
+        spinner(true);
+        var options = { "backdrop": "static", keyboard: true };
+        var url = "@Url.Content("~/Product/New/")";
+        $('.modal').modal('hide');
+        $.ajax({
+            type: "GET",
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                spinner(false);
+                $('#myModalContent').html(data);
+                $('#myModal').modal(options);
+                $('#myModal').modal('show');
+            },
+            error: function () {
+                $('#myModalContent').html("Error fetching Registration Policy");
+            }
+        });
+    }
+
+    function EditProduct(id) {
+        spinner(true);
+        var options = { "backdrop": "static", keyboard: true };
+        var url = "@Url.Content("~/Product/")";
+        $('.modal').modal('hide');
+        $.ajax({
+            type: "GET",
+            url: url + id,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                spinner(false);
+                $('#myModalContent').html(data);
+                $('#myModal').modal(options);
+                $('#myModal').modal('show');
+            },
+            error: function () {
+                $('#myModalContent').html("Error fetching Registration Policy");
+            }
+        });
+    }
+</script>

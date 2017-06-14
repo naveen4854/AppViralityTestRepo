@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div class="form-group row">
+    <div class="col-md-2">
+        <label>Category</label>
+    </div>
+    <div class="col-md-6">
+        @Html.DropDownList("CategoryId", new SelectList(@ViewBag.Categories, "Id", "Name"), new { @class = "form-control", onchange = "LoadResults(1)" })
+    </div>
+</div>
+<div id="products">
+
+</div>
+<script>
+    $(document).ready(function(){
+        var categoryId =  $("#CategoryId").val();
+        if(categoryId != undefined)
+            LoadResults(1);
+    });
+    var baseurl = @Url.Content("~");
+    function LoadResults(pageNum) {
+        spinner(true);
+        var categoryId =  $("#CategoryId").val();
+        var url = baseurl + 'ProductsByCategory/';
+        $.ajax({
+            type: 'GET',
+            processData: false,
+            url: url + categoryId +'/' + pageNum,
+            success: function (response) {
+                spinner(false);
+                $('#products').html(response);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+            },
+        });
+    }
+</script>

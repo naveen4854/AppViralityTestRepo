@@ -1,0 +1,119 @@
+﻿@model AppViralityTest.DataModels.ProductViewModel
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "UpdateProductForm", novalidate = "novalidate" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <div class="row" style="margin:10px 10px 0px 25px">
+            <div class="col-md-11"><h2>Edit Product</h2></div>
+            <div class="col-md-1 pointer">
+                <i class="fa fa-window-close" id="modalClose" aria-hidden="true"></i>
+            </div>
+        </div>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        <div style="padding-left:50px">
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Name"} })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.DropDownListFor(model => model.CategoryId, new SelectList(@ViewBag.Categories, "Id", "Name"), new { @class = "form-control", Id = "EditProductCatId" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @placeholder = "Price" } })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+
+    $(function () {
+
+        // Setup form validation on the #UpdateProductForm element
+        $("#UpdateProductForm").validate({
+
+            // Specify the validation rules
+            rules: {
+                Name: "required",
+                Price: {
+                    required: true,
+                    number: true
+                },
+                Description: "required",
+            },
+
+            // Specify the validation error messages
+            messages: {
+                Name: "Please enter product name",
+                Price: {
+                    required: "Please enter price",
+                    number: "Characters not allowed"
+                },
+                Description: "Please enter Description",
+            },
+
+            submitHandler: function (form) {
+                updateProduct();
+            }
+        });
+
+    });
+
+
+    $('#modalClose').click(function () {
+        $('.modal').modal('hide');
+    });
+    function updateProduct() {
+        var data = new FormData();
+        var productId = $("#Id").val();
+        data.append("Id", productId);
+        data.append("Name", $("#Name").val());
+        data.append("Description", $("#Description").val());
+        data.append("Price", $("#Price").val());
+        data.append("CategoryId", $("#EditProductCatId").val());
+
+        var url = "@Url.Content("~/Product/")";
+        $('.modal').modal('hide');
+        spinner(true);
+        $.ajax({
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            url: url + productId,
+            data: data,
+            success: function (response) {
+                spinner(false);
+                toastr.success('Updated');
+                LoadResults(1);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                toastr.error('Something went wrong')
+            },
+        });
+    }
+</script>
+
